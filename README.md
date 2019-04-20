@@ -68,7 +68,7 @@ const token = jwt.sign({
 // Set Token in Authorization headers as Bearer Token
 // Like 'Bearer eyJhbGciOiJIUzI1NiIsIn......'
 
-get("/helloWorld1")
+get("/api/v1/helloWorld1")
 /*
  Will result in
  Status: 200
@@ -77,7 +77,7 @@ get("/helloWorld1")
   }
 */
 
-get("/user")
+get("/api/v1/user")
 /*
  Will result in
  Status: 200
@@ -92,7 +92,7 @@ get("/user")
 */
 
 
-get("/moderator")
+get("/api/v1/moderator")
 /* 
  Will result in
  Status: 401
@@ -101,7 +101,7 @@ get("/moderator")
   }
 */
 
-get("/auth")
+get("/api/v1/auth")
 /*
  Will result in
  Status: 200
