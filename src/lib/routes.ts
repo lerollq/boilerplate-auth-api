@@ -2,7 +2,7 @@ import { Router, Application } from "express";
 import { NextFunction, Request, Response } from 'express';
 import { verify as jwtVerify, VerifyOptions } from 'jsonwebtoken';
 
-interface RouteObject {
+interface Routes {
   /**Url access ( /api/v1/routeName ) */
   url: string,
   /**Method access */
@@ -13,9 +13,6 @@ interface RouteObject {
   auth: null | string[]
 }
 
-interface Routes {
-  [key:string]:RouteObject[]
-}
 
 interface Options {
   jwtSecret:any,
@@ -39,20 +36,17 @@ export default  (app:Application, router:Router, options:Options) => {
     }
   }
 
-  const bindRoutes = (baseUrl: string, routes:Routes) => {
-
-    for (let r in routes) {
-      routes[r].forEach((route) => {
-        const middlewares = [];
-        if (route.auth === null) {
-          delete route.auth;
-        } else {
-          middlewares.push(verify(route.auth));
-        }
-        router[route.method](route.url, middlewares, route.handler);
+  const bindRoutes = (baseUrl: string, routes:Routes[]) => {
+    routes.forEach((route) => {
+      const middlewares = [];
+      if (route.auth === null) {
+        delete route.auth;
+      } else {
+        middlewares.push(verify(route.auth));
+      }
+      router[route.method](route.url, middlewares, route.handler);
       });
-      app.use(baseUrl, router);
-    }
+    app.use(baseUrl, router);
   };
   return {
     bindRoutes:bindRoutes,

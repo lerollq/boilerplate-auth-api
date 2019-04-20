@@ -23,21 +23,29 @@ const token = sign({
 
 const publicHandler = (req, res, next) => res.status(200).send('Hello World !');
 
-const privateHandler = (req, res, next) => res.status(200).send(req.user);
+const userHandler = (req, res, next) => res.status(200).send(req.user);
+
+const moderatorHandler = (req, res, next) => res.status(200).send(req.user);
+
+const authHandler = (req, res, next) => res.status(200).send(req.user);
 
 routes(app, express.Router(), {
   jwtSecret: JWT_SECRET,
   jwtOptions:{
     issuer:'Issuer'
   }
-}).bindRoutes('/api/v1', {
-  "public": [
-    {method:"get", url:'/helloWorld', handler:publicHandler, auth:null}
-  ],
-  "private":[
-    {method:"get", url:'/me', handler:privateHandler, auth: ['USER']}
+}).bindRoutes('/api/v1', [
+    /*Public Routes */
+    {method:"get", url:'/helloWorld1', handler:publicHandler, auth:null},
+    {method:"get", url:'/helloWorld2', handler:publicHandler, auth:null},
+    /*Route for USER only */
+    {method:"get", url:'/user', handler:userHandler, auth: ['USER']},
+    /*Route for MODERATOR only */
+    {method:"get", url:'/moderator', handler:moderatorHandler, auth: ['MODERATOR']},
+    /*Route for USER & MODERATOR */
+    {method:"get", url:'/auth', handler:authHandler, auth: ['USER', 'MODERATOR']},
   ]
-});
+);
 
 const port = process.env.PORT || 3001;
 // Start server listenner
