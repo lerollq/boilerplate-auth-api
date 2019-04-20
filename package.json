@@ -1,0 +1,32 @@
+{
+  "name": "boilerplate-auth-api",
+  "email":"",
+  "version": "1.0.0",
+  "description": "",
+  "files":["dist"],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start":"npm run build && node ./test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lerollq/boilerplate-auth-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lerollq/boilerplate-auth-api/issues"
+  },
+  "homepage": "https://github.com/lerollq/boilerplate-auth-api#readme",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "@types/jsonwebtoken": "^8.3.2",
+    "express": "^4.16.4"
+  }
+}
