@@ -7,11 +7,12 @@
     "declaration": true,
     "esModuleInterop": true,
     "strict": true,
-    },
-  "includes":[
-    "./src",
-  ],
-  "exclude": [
+    "rootDir": "src"
+  },
+    "include": [
+      "src/**/*"
+    ],
+    "exclude": [
     "node_modules",
     "dist"
    ]

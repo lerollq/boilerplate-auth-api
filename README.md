@@ -12,9 +12,9 @@ $ npm install boilerplate-auth-api
 
 ### routes(app, express.Router(), options?).bindRoutes(baseUrl, Routes)
 
-`options?`:
+`options`:
  * `jwtSecret` is your jsonwebtoken secret or Private key
- * `jwtOptions`: JsonWebToken Options, [more info here](https://github.com/auth0/node-jsonwebtoken/blob/master/README.md#jwtverifytoken-secretorpublickey-options-callback)
+ * `jwtOptions?`: JsonWebToken Options, [more info here](https://github.com/auth0/node-jsonwebtoken/blob/master/README.md#jwtverifytoken-secretorpublickey-options-callback)
 
 ```js
 
@@ -33,7 +33,7 @@ const authHandler = (req, res, next) => res.status(200).send(req.user);
 
 routes(app, express.Router(), {
   jwtSecret: JWT_SECRET,
-  jwtOptions:{
+  jwtOptions?:{
     issuer:'Issuer'
   }
 }).bindRoutes('/api/v1', {
