@@ -1,7 +1,7 @@
 const  express = require('express');
 const http = require('http');
-const {sign} = require('jsonwebtoken');
-const routes = require('../dist');
+// const {sign} = require('jsonwebtoken');
+const routes = require('../src');
 const app = express();
 const server = new http.Server(app);
 
