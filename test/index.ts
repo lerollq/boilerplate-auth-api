@@ -1,19 +1,17 @@
-const express = require('express');
+const  express = require('express');
 const http = require('http');
 const {sign} = require('jsonwebtoken');
-const {routes} = require('../dist');
-
+const routes = require('../dist');
 const app = express();
 const server = new http.Server(app);
 
 const JWT_SECRET = 'MYAWESOMESECRET';
-
-const token = sign({
-  username: 'Lerollq',
-  id:'123456789',
-  role: 'USER',
-  email:'my-email@gmail.com'
-}, JWT_SECRET, {issuer:'Issuer'});
+// const token = sign({
+//   username: 'Lerollq',
+//   id:'123456789',
+//   role: 'USER',
+//   email:'my-email@gmail.com'
+// }, JWT_SECRET, {issuer:'Issuer'});
 
 /*
   console.log(token); 

@@ -7,11 +7,8 @@
     "declaration": true,
     "esModuleInterop": true,
     "strict": true,
-    "rootDir": "src"
   },
-    "include": [
-      "src/**/*"
-    ],
+  "include": ["src/**/*", "global.d.ts", "JwtPayload.d.ts"],
     "exclude": [
     "node_modules",
     "dist"

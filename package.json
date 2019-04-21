@@ -8,7 +8,7 @@
     "README.md"
   ],
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node ./test/"
@@ -25,10 +25,10 @@
   },
   "homepage": "https://github.com/lerollq/boilerplate-auth-api#readme",
   "dependencies": {
+    "@types/express": "^4.16.1",
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
-    "@types/express": "^4.16.1",
     "@types/jsonwebtoken": "^8.3.2",
     "express": "^4.16.4"
   }

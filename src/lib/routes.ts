@@ -1,21 +1,36 @@
 import * as Express from "express";
-import { verify as jwtVerify, VerifyOptions } from 'jsonwebtoken';
+import { verify as jwtVerify } from 'jsonwebtoken';
+import { VerifyOptions } from "jsonwebtoken";
 
-
-declare global {
-  namespace Express {
-    interface Request {
-      user: JWTPayload,
-    }
-  }
+export interface UserPayload {
+  username?: string;
+  id?: string;
+  email?: string;
+  role: string;
 }
 
-interface RegisteredClaim {
+export interface Options {
+  jwtSecret:any,
+  jwtOptions?:VerifyOptions,
+}
+
+export interface RoutesObject {
+  /**Url access ( /api/v1/routeName ) */
+  url: string,
+  /**Method access */
+  method: 'post' | 'get' | 'put' | 'delete';
+  /**Handler redirection */
+  handler: (req:Express.Request, res: Express.Response, next: Express.NextFunction) =>  any,
+  /**Null = public method, If some datas provided, jwt middleware will check if the string array includes user.role in decoded token payload  */
+  auth: null | string[]
+}
+
+export  interface RegisteredClaim {
   /**The "iss" (issuer) claim identifies the principal that issued the
    JWT.  The processing of this claim is generally application specific.
    The "iss" value is a case-sensitive string containing a StringOrURI
    value.  Use of this claim is OPTIONAL.*/
-  iss: any,
+  iss: any;
   /**The "sub" (subject) claim identifies the principal that is the
    subject of the JWT.  The claims in a JWT are normally statements
    about the subject.  The subject value MUST either be scoped to be
@@ -23,7 +38,7 @@ interface RegisteredClaim {
    The processing of this claim is generally application specific.  The
    "sub" value is a case-sensitive string containing a StringOrURI
    value.  Use of this claim is OPTIONAL. */
-  sub:any
+  sub: any;
   /**The "aud" (audience) claim identifies the recipients that the JWT is
    intended for.  Each principal intended to process the JWT MUST
    identify itself with a value in the audience claim.  If the principal
@@ -35,12 +50,12 @@ interface RegisteredClaim {
    single case-sensitive string containing a StringOrURI value.  The
    interpretation of audience values is generally application specific.
    Use of this claim is OPTIONAL. */
-  aud:any,
-   /** The "exp" (expiration time) claim identifies the expiration time on
-   or after which the JWT MUST NOT be accepted for processing.  The
-   processing of the "exp" claim requires that the current date/time
-   MUST be before the expiration date/time listed in the "exp" claim. */
-  exp:any,
+  aud: any;
+  /** The "exp" (expiration time) claim identifies the expiration time on
+  or after which the JWT MUST NOT be accepted for processing.  The
+  processing of the "exp" claim requires that the current date/time
+  MUST be before the expiration date/time listed in the "exp" claim. */
+  exp: any;
   /**The "nbf" (not before) claim identifies the time before which the JWT
    MUST NOT be accepted for processing.  The processing of the "nbf"
    claim requires that the current date/time MUST be after or equal to
@@ -48,49 +63,37 @@ interface RegisteredClaim {
    provide for some small leeway, usually no more than a few minutes, to
    account for clock skew.  Its value MUST be a number containing a
    NumericDate value.  Use of this claim is OPTIONAL. */
-   nbf: number,
-   /**The "iat" (issued at) claim identifies the time at which the JWT was
-   issued.  This claim can be used to determine the age of the JWT.  Its
-   value MUST be a number containing a NumericDate value.  Use of this
-   claim is OPTIONAL. */
-   iat:number,
-   /**The "jti" (JWT ID) claim provides a unique identifier for the JWT.
-   The identifier value MUST be assigned in a manner that ensures that
-   there is a negligible probability that the same value will be
-   accidentally assigned to a different data object; if the application
-   uses multiple issuers, collisions MUST be prevented among values
-   produced by different issuers as well.  The "jti" claim can be used
-   to prevent the JWT from being replayed.  The "jti" value is a case-
-   sensitive string.  Use of this claim is OPTIONAL. */
-   jti:string,
-}
-interface UserPayload {
-  username?: string;
-  id?: string,
-  email?: string,
-  role: string, 
+  nbf: number;
+  /**The "iat" (issued at) claim identifies the time at which the JWT was
+  issued.  This claim can be used to determine the age of the JWT.  Its
+  value MUST be a number containing a NumericDate value.  Use of this
+  claim is OPTIONAL. */
+  iat: number;
+  /**The "jti" (JWT ID) claim provides a unique identifier for the JWT.
+  The identifier value MUST be assigned in a manner that ensures that
+  there is a negligible probability that the same value will be
+  accidentally assigned to a different data object; if the application
+  uses multiple issuers, collisions MUST be prevented among values
+  produced by different issuers as well.  The "jti" claim can be used
+  to prevent the JWT from being replayed.  The "jti" value is a case-
+  sensitive string.  Use of this claim is OPTIONAL. */
+  jti: string;
 }
 
-interface JWTPayload extends RegisteredClaim, UserPayload {}
-
-interface Routes {
-  /**Url access ( /api/v1/routeName ) */
-  url: string,
-  /**Method access */
-  method: 'post' | 'get' | 'put' | 'delete';
-  /**Handler redirection */
-  handler: (req:Express.Request, res: Express.Response, next: Express.NextFunction) => any,
-  /**Null = public method, If some datas provided, jwt middleware will check if the string array includes user.role in decoded token payload  */
-  auth: null | string[]
-}
+export interface JWTPayload extends UserPayload, RegisteredClaim {}
 
 
-interface Options {
-  jwtSecret:any,
-  jwtOptions?:VerifyOptions,
-}
+declare global {
+  namespace Express {
+     interface Request {
+       user: UserPayload,
+     }
+   }
+ }
 
-export default  (app:Express.Application, router:Express.Router, options: Options) => {
+
+
+export const routes = (app:Express.Application, router:Express.Router, options: Options) => {
 
   const verify = (requiredRole: string[]) => async (req:Express.Request, res: Express.Response, next: Express.NextFunction) => {
     try {
@@ -107,7 +110,7 @@ export default  (app:Express.Application, router:Express.Router, options: Option
     }
   }
 
-  const bindRoutes = (baseUrl: string, routes:Routes[]) => {
+  const bindRoutes = (baseUrl: string, routes:RoutesObject[]) => {
     routes.forEach((route) => {
       const middlewares = [];
       if (route.auth === null) {
