@@ -16,10 +16,10 @@ interface Routes {
 
 interface Options {
   jwtSecret:any,
-  jwtOptions:VerifyOptions,
+  jwtOptions?:VerifyOptions,
 }
 
-export default  (app:Application, router:Router, options:Options) => {
+export default  (app:Application, router:Router, options: Options) => {
 
   const verify = (requiredRole: string[]) => async (req:Request, res: Response, next: NextFunction) => {
     try {

@@ -31,9 +31,6 @@ const authHandler = (req, res, next) => res.status(200).send(req.user);
 
 routes(app, express.Router(), {
   jwtSecret: JWT_SECRET,
-  jwtOptions:{
-    issuer:'Issuer'
-  }
 }).bindRoutes('/api/v1', [
     /*Public Routes */
     {method:"get", url:'/helloWorld1', handler:publicHandler, auth:null},
