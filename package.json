@@ -1,11 +1,10 @@
 {
   "name": "boilerplate-auth-api",
   "email": "",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "",
   "files": [
-    "dist/index.js",
-    "dist/index.d.ts",
+    "dist",
     "README.md"
   ],
   "main": "dist/index.js",

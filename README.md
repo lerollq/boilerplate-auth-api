@@ -18,7 +18,7 @@ $ npm install boilerplate-auth-api
 
 ```js
 
-const {routes} = require('boilerplate-auth-api');
+const routes = require('boilerplate-auth-api');
 
 const JWT_SECRET = 'MYAWESOMESECRET';
 
