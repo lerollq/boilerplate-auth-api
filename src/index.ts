@@ -1,5 +1,4 @@
 import {Request, Response, NextFunction, Application, Router} from 'express';
-import * as Express from 'express';
 import { verify as jwtVerify } from 'jsonwebtoken';
 import { VerifyOptions, SignOptions } from "jsonwebtoken";
 
@@ -18,24 +17,20 @@ declare namespace boilerplateAuthApi  {
     jwtOptions?:VerifyOptions,
   }
 
-  type RoutesMethod = "get" | "post" | "put" | "delete";
-  
+  type RouteMethod = 'post' | 'get' | 'put' | 'delete';
   interface RoutesObject {
     url: string,
-    method: "post" | "get" | "delete" | "put",
     handler: (req:Request, res: Response, next: NextFunction) =>  any,
     scope: null | string[]
+    method: RouteMethod,
   }
-
-  interface StringTMap<T> { [key: string]: any; }
 
   interface JwtBody extends  SignOptions {
     [key: string]: any
   }
   
 }
-
-export default (app:Application, router:Express.Router, options: boilerplateAuthApi.Options) => {
+const boilerplateAuthApi =  (app:Application, router:Router, options: boilerplateAuthApi.Options) => {
 
   const verify = (requiredScope: string[]) => async (req:Request, res: Response, next: NextFunction) => {
     try {
@@ -67,3 +62,5 @@ export default (app:Application, router:Express.Router, options: boilerplateAuth
     bindRoutes:bindRoutes,
   }
 }
+
+export = boilerplateAuthApi;

@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as http from 'http';
 import {sign} from 'jsonwebtoken';
-import routes  from '../dist';
+import routes  from '../src';
 
 const app = express();
 const server = new http.Server(app);
@@ -36,13 +36,13 @@ routes(app, express.Router(), {
   jwtSecret: JWT_SECRET,
 }).bindRoutes('/api/v1', [
     /*Public Routes */
-    {method:"get", url:'/helloWorld', handler:publicHandler, scope:null},
+    {method:<const>"get", url:'/helloWorld', handler:publicHandler, scope:null},
     /*Route for USER only */
-    {method:"post", url:'/user', handler:userHandler, scope: ['user']},
+    {method:<const>"post", url:'/user', handler:userHandler, scope: ['user']},
     /*Route for USER && MODERATOR scope only */
-    {method:"get", url:'/multipleScope', handler:multipleScopeHandler, scope: ['user', 'moderator']},
+    {method:<const>"get", url:'/multipleScope', handler:multipleScopeHandler, scope: ['user', 'moderator']},
     /*Route for ADMIN scope only */
-    {method:"get", url:'/admin', handler:adminHandler, scope: ['admin']},
+    {method:<const>"get", url:'/admin', handler:adminHandler, scope: ['admin']},
   ]
 );
 
