@@ -38,7 +38,7 @@ routes(app, express.Router(), {
     /*Public Routes */
     {method:"get", url:'/helloWorld', handler:publicHandler, scope:null},
     /*Route for USER only */
-    {method:"get", url:'/user', handler:userHandler, scope: ['user']},
+    {method:"post", url:'/user', handler:userHandler, scope: ['user']},
     /*Route for USER && MODERATOR scope only */
     {method:"get", url:'/multipleScope', handler:multipleScopeHandler, scope: ['user', 'moderator']},
     /*Route for ADMIN scope only */
