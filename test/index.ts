@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as http from 'http';
 import {sign} from 'jsonwebtoken';
-import * as routes  from '../dist';
+import routes  from '../dist';
 
 const app = express();
 const server = new http.Server(app);
