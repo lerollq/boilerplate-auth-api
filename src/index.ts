@@ -1,6 +1,6 @@
 import {Request, Response, NextFunction, Application, Router} from 'express';
 import { verify as jwtVerify } from 'jsonwebtoken';
-import { VerifyOptions, SignOptions, JwtHeader, DecodeOptions } from "jsonwebtoken";
+import { VerifyOptions, SignOptions } from "jsonwebtoken";
 
 declare global {
   namespace Express {
@@ -32,7 +32,7 @@ declare namespace boilerplateAuthApi  {
   
 }
 
-const boilerplateAuthApi = (app:Application, router:Router, options: boilerplateAuthApi.Options) => {
+const routes = (app:Application, router:Router, options: boilerplateAuthApi.Options) => {
 
   const verify = (requiredScope: string[]) => async (req:Request, res: Response, next: NextFunction) => {
     try {
@@ -65,4 +65,4 @@ const boilerplateAuthApi = (app:Application, router:Router, options: boilerplate
   }
 }
 
-export = boilerplateAuthApi;
+export = routes;
