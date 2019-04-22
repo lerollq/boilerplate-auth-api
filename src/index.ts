@@ -17,10 +17,11 @@ declare namespace boilerplateAuthApi  {
     jwtOptions?:VerifyOptions,
   }
 
+  type RoutesMethod = "get" | "post" | "put" | "delete";
   
   interface RoutesObject {
     url: string,
-    method: "get" | "post" | "delete" | "put",
+    method: RoutesMethod,
     handler: (req:Request, res: Response, next: NextFunction) =>  any,
     scope: null | string[]
   }
