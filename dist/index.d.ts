@@ -6,21 +6,20 @@ declare global {
             jwtBody?: boilerplateAuthApi.JwtBody;
         }
     }
-}
-declare namespace boilerplateAuthApi {
-    interface Options {
-        jwtSecret: any;
-        jwtOptions?: VerifyOptions;
-    }
-    type RouteMethod = 'post' | 'get' | 'put' | 'delete';
-    interface RoutesObject {
-        url: string;
-        handler: (req: Request, res: Response, next: NextFunction) => any;
-        scope: null | string[];
-        method: RouteMethod;
-    }
-    interface JwtBody extends SignOptions {
-        [key: string]: any;
+    namespace boilerplateAuthApi {
+        interface JwtBody extends SignOptions {
+            [key: string]: any;
+        }
+        interface Options {
+            jwtSecret: any;
+            jwtOptions?: VerifyOptions;
+        }
+        interface RoutesObject {
+            url: string;
+            handler: (req: Request, res: Response, next: NextFunction) => any;
+            scope: null | string[];
+            method: 'post' | 'get' | 'put' | 'delete';
+        }
     }
 }
 declare const boilerplateAuthApi: (app: Application, router: Router, options: boilerplateAuthApi.Options) => {
