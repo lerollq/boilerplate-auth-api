@@ -27,48 +27,45 @@ const publicHandler = (req, res, next) => res.status(200).send('Hello World !');
 
 const userHandler = (req, res, next) => res.status(200).send(req.user);
 
-const moderatorHandler = (req, res, next) => res.status(200).send(req.user);
+const multipleScopeHandler = (req, res, next) => res.status(200).send(req.user);
 
 const authHandler = (req, res, next) => res.status(200).send(req.user);
 
 routes(app, express.Router(), {
   jwtSecret: JWT_SECRET,
-  jwtOptions?:{
-    issuer:'Issuer'
-  }
-}).bindRoutes('/api/v1', {
+}).bindRoutes('/api/v1', [
     /*Public Routes */
-    {method:"get", url:'/helloWorld1', handler:publicHandler, auth:null},
-
+    {method:"get", url:'/helloWorld', handler:publicHandler, scope:null},
     /*Route for USER only */
-    {method:"get", url:'/user', handler:userHandler, auth: ['USER']},
-
-    /*Route for MODERATOR only */
-    {method:"get", url:'/moderator', handler:moderatorHandler, auth: ['MODERATOR']},
-
-    /*Route for USER & MODERATOR */
-    {method:"get", url:'/auth', handler:authHandler, auth: ['USER', 'MODERATOR']},
+    {method:"get", url:'/user', handler:userHandler, scope: ['user']},
+    /*Route for USER && MODERATOR scope only */
+    {method:"get", url:'/multipleScope', handler:multipleScopeHandler, scope: ['user', 'moderator']},
+    /*Route for ADMIN scope only */
+    {method:"get", url:'/admin', handler:adminHandler, scope: ['admin']},
   ]
-});
+);
 
 ```
 
 ```js
 const {sign} = require('jsonwebtoken');
 
-const token = jwt.sign({
+const token = sign({
+  uid:'user/123456789',
   username: 'Lerollq',
-  id:'123456789',
-  role: 'USER',
-  email:'my-email@gmail.com'
-}, JWT_SECRET, {issuer:'Issuer'});
+  scope:['user', 'moderator']
+}, JWT_SECRET, {
+  subject:'my-email@gmail.com',
+  issuer:'Issuer',
+  algorithm:'HS512'
+});
 
 
 // Token = eyJhbGciOiJIUzI1NiIsIn......
 // Set Token in Authorization headers as Bearer Token
 // Like 'Bearer eyJhbGciOiJIUzI1NiIsIn......'
 
-get("/api/v1/helloWorld1")
+get("/api/v1/helloWorld")
 /*
  Will result in
  Status: 200
@@ -82,36 +79,41 @@ get("/api/v1/user")
  Will result in
  Status: 200
  Response: {
+    "uid": "user/123456789",
     "username": "Lerollq",
-    "id": "123456789",
-    "role": "USER",
-    "email": "my-email@gmail.com",
-    "iat": 1555790776,
-    "iss": "Issuer"
+    "scope": [
+        "user",
+        "moderator"
+    ],
+    "iat": 1555951799,
+    "iss": "Issuer",
+    "sub": "my-email@gmail.com"
   }
 */
 
+get("/api/v1/multipleScope")
+/*
+ Will result in
+ Status: 200
+ Response: {
+    "uid": "user/123456789",
+    "username": "Lerollq",
+    "scope": [
+        "user",
+        "moderator"
+    ],
+    "iat": 1555951799,
+    "iss": "Issuer",
+    "sub": "my-email@gmail.com"
+  }
+*/
 
-get("/api/v1/moderator")
+get("/api/v1/admin")
 /* 
  Will result in
  Status: 401
  Response: {
    'Unauthorized'
-  }
-*/
-
-get("/api/v1/auth")
-/*
- Will result in
- Status: 200
- Response: {
-    "username": "Lerollq",
-    "id": "123456789",
-    "role": "USER",
-    "email": "my-email@gmail.com",
-    "iat": 1555790776,
-    "iss": "Issuer"
   }
 */
 

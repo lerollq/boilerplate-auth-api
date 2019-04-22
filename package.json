@@ -10,8 +10,7 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "start": "npm run build && node ./test/"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -29,5 +28,7 @@
     "@types/jsonwebtoken": "^8.3.2",
     "jsonwebtoken": "^8.5.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "express": "^4.16.4"
+  }
 }
