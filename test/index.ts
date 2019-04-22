@@ -5,7 +5,6 @@ import routes  from '../src';
 
 const app = express();
 const server = new http.Server(app);
-
 const JWT_SECRET = 'MYAWESOMESECRET';
 
 const token = sign({
